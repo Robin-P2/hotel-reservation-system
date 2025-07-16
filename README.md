@@ -23,9 +23,9 @@ This system allows users to seamlessly book rooms, while administrators can mana
 
 ---
 
-![Homepage Screenshot](static/screenshots/homepage.png)
-![Booking Page](static/screenshots/booking.png)
-![Admin Dashboard](static/screenshots/admin-dashboard.png)
+![Homepage Screenshot](static/Screenshots/homepage.png)
+![Booking Page](static/Screenshots/book.png)
+![Admin Dashboard](static/Screenshots/admin.png)
 
 ---
 
