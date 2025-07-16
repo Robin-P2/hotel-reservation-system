@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="{{ url_for('static', filename='images/icons/favicon.png') }}" />
   <title>Regal Homes</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon/logo.png') }}">
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
@@ -124,7 +125,7 @@
           <div class="row">
             <div class="col-md-2 col-sm-6 col-xs-6">
               <div id="logo">
-                <a href="{{ url_for('index') }}"><span>vacay</span>home</a>
+                <a href="{{ url_for('index') }}"><span>Regal</span>Homes</a>
               </div>
             </div>
             <div class="col-sm-6 visible-sm">
@@ -146,7 +147,7 @@
                   <ul class="list-unstyled nav1 cl-effect-10">
                     <li><a data-hover="Home" href="{{ url_for('index') }}" class="active"><span>Home</span></a></li>
                     <li><a data-hover="Book" href="{{ url_for('book') }}"><span>Book</span></a></li>
-                    <li><a data-hover="Admin" href="{{url_for('admin_login') }}"><span></span></a></li>
+                    <li><a data-hover="Admin" href="{{url_for('admin_login') }}"><span>Admin</span></a></li>
                   </ul>
                 </div>
               </nav>
