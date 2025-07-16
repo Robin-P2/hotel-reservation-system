@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
 
     const roomPrices = {
-        'Budget': 2000,
-        'Premium': 4000,
+        'Deluxe': 2000,
+        'Suite': 4000,
         'Luxury': 6000
     };
 
