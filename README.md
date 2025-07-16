@@ -23,15 +23,25 @@ This system allows users to seamlessly book rooms, while administrators can mana
 
 ---
 
-## ⚙️ Tech Stack Used
+![Homepage Screenshot](static/screenshots/homepage.png)
+![Booking Page](static/screenshots/booking.png)
+![Admin Dashboard](static/screenshots/admin-dashboard.png)
 
-| Layer          | Technology                         |
-|----------------|-------------------------------------|
-| Backend        | Python, Flask                      |
-| Frontend       | HTML5, CSS3, JavaScript, Bootstrap |
-| Database       | MySQL                              |
-| Templating     | Jinja2 (Flask’s template engine)   |
-| Tools          | Git, GitHub, VS Code               |
+---
+
+---
+
+## 🧰 Tech Stack
+
+| Technology | Description |
+|------------|-------------|
+| 🐍 Python | Backend logic |
+| 🌐 Flask | Web framework |
+| 🐬 MySQL | Relational Database |
+| 🎨 HTML5, CSS3 | Frontend UI |
+| ⚙️ JavaScript | Dynamic interactions |
+| 🧾 Jinja2 | Templating engine |
+| 📦 Bootstrap 3 | Responsive design |
 
 ---
 
