@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book a Room</title>
+  
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+  <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+
+    .section-title {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 32px;
+      color: #444;
+      margin-bottom: 40px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .booking-form {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 60px;
+    }
+
+    #total_price, #room_price {
+      font-size: 18px;
+      color: #333;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 80px;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 25px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .modal-footer {
+      text-align: right;
+    }
+
+    .modal-footer .btn {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container section-padding">
+  <h2 class="section-title">Room Booking</h2>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form method="POST" class="booking-form" id="bookingForm">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <label for="room_type">Room Type:</label>
+          {{ form.room_type(id="room_type", class="form-control") }}
+          <div id="room_price">Room Price per Night: ₹0</div>
+        </div>
+
+        <div class="form-group">
+          <label for="guest_name">Name:</label>
+          {{ form.guest_name(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="check_in">Check-In Date:</label>
+          {{ form.check_in(id="check_in", class="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="check_out">Check-Out Date:</label>
+          {{ form.check_out(id="check_out", class="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="adults">Adults:</label>
+          {{ form.adults(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="children">Children:</label>
+          {{ form.children(class="form-control", placeholder="Optional") }}
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="previewBtn">Preview & Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Confirm Your Booking</h4>
+    </div>
+    <div class="modal-body">
+      <p><strong>Name:</strong> <span id="modalName"></span></p>
+      <p><strong>Room Type:</strong> <span id="modalRoom"></span></p>
+      <p><strong>Check-in:</strong> <span id="modalCheckin"></span></p>
+      <p><strong>Check-out:</strong> <span id="modalCheckout"></span></p>
+      <p><strong>Adults:</strong> <span id="modalAdults"></span></p>
+      <p><strong>Children:</strong> <span id="modalChildren"></span></p>
+      <p><strong>Total Price:</strong> ₹<span id="modalTotalPrice"></span></p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" onclick="closeModal()">Cancel</button>
+      <button type="button" class="btn btn-success" onclick="submitForm()">Confirm Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- Room Price Logic + Modal Preview -->
+<script>
+  const rateMap = {
+    'Budget': 1000,
+    'Premium': 2000,
+    'Luxury': 3000
+  };
+
+  const form = document.getElementById('bookingForm');
+  const previewBtn = document.getElementById('previewBtn');
+
+  function updateRoomPrice() {
+    const roomType = document.getElementById('room_type').value;
+    const rate = rateMap[roomType] || 0;
+    document.getElementById('room_price').textContent = `Room Price per Night: ₹${rate}`;
+  }
+
+  function closeModal() {
+    document.getElementById('confirmationModal').style.display = 'none';
+  }
+
+  function submitForm() {
+    closeModal();
+    form.submit();
+  }
+
+  previewBtn.addEventListener('click', function () {
+    const name = document.querySelector('[name="guest_name"]').value;
+    const room = document.querySelector('[name="room_type"]').value;
+    const checkin = document.querySelector('[name="check_in"]').value;
+    const checkout = document.querySelector('[name="check_out"]').value;
+    const adults = document.querySelector('[name="adults"]').value;
+    const children = document.querySelector('[name="children"]').value || 0;
+
+    const checkInDate = new Date(checkin);
+    const checkOutDate = new Date(checkout);
+    const nights = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24);
+
+    if (nights <= 0 || !room || !checkin || !checkout || !name || !adults) {
+      alert("Please fill all required fields and use valid dates.");
+      return;
+    }
+
+    const price = nights * (rateMap[room] || 1000);
+
+    document.getElementById('modalName').textContent = name;
+    document.getElementById('modalRoom').textContent = room;
+    document.getElementById('modalCheckin').textContent = checkin;
+    document.getElementById('modalCheckout').textContent = checkout;
+    document.getElementById('modalAdults').textContent = adults;
+    document.getElementById('modalChildren').textContent = children;
+    document.getElementById('modalTotalPrice').textContent = price;
+
+    document.getElementById('confirmationModal').style.display = 'block';
+  });
+
+  window.onclick = function (event) {
+    if (event.target === document.getElementById('confirmationModal')) {
+      closeModal();
+    }
+  };
+
+  document.getElementById('room_type').addEventListener('change', updateRoomPrice);
+  window.addEventListener('DOMContentLoaded', () => {
+    updateRoomPrice();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedRoom = urlParams.get('room');
+    if (selectedRoom) {
+      const roomSelect = document.getElementById('room_type');
+      for (let i = 0; i < roomSelect.options.length; i++) {
+        if (roomSelect.options[i].value.toLowerCase() === selectedRoom.toLowerCase()) {
+          roomSelect.selectedIndex = i;
+          updateRoomPrice();
+          break;
+        }
+      }
+    }
+  });
+</script>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="footer-details">
+          <h4>Get in touch</h4>
+          <ul class="list-unstyled footer-contact-list">
+            <li><i class="fa fa-map-marker fa-lg"></i> Kodaikanal, TamilNadu</li>
+            <li><i class="fa fa-phone fa-lg"></i> <a href="tel:+91-9692550275">+91-9692550275</a></li>
+            <li><i class="fa fa-envelope-o fa-lg"></i> <a href="mailto:demo@info.com">Regal Homes</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-details">
+          <h4>Explore</h4>
+          <ul class="list-unstyled footer-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('book') }}">Book</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 All rights reserved. Designed by VacayHome.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

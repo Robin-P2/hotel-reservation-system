@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{ url_for('static', filename='images/icons/favicon.png') }}" />
+  <title>Regal Homes</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='fonts/antonio-exotic/stylesheet.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+  <style>
+    .room-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom: 30px;
+    }
+
+    .room-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .room-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .room-info {
+      padding: 20px;
+    }
+
+    .room-info h4 {
+      font-weight: 600;
+      color: #2b2b2b;
+      margin-top: 0;
+    }
+
+    .room-desc {
+      font-size: 14px;
+      color: #666;
+      margin: 10px 0 15px;
+    }
+    .section-title {
+      margin: 50px 0 30px;
+      text-align: center;
+      font-size: 28px;
+      color: #1081ddff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    }
+
+    .room-card img, .service-image img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: opacity 0.3s ease;
+    }
+
+    .room-card img:hover, .service-image img:hover {
+      opacity: 0.9;
+    }
+
+    .service-block {
+      padding: 60px 0;
+      background-color: #fefefe;
+    }
+
+    .service-block .section-title {
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 40px;
+      font-weight: 700;
+      color: #1081dd;
+    }
+
+    .service-details {
+      background-color: #ffffff;
+      padding: 25px 20px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      margin-bottom: 30px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-height: 220px;
+    }
+
+    .service-details:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-details h4 {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .service-image img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="page">
+
+    <header class="header-container">
+      <div class="container">
+        <div class="top-row">
+          <div class="row">
+            <div class="col-md-2 col-sm-6 col-xs-6">
+              <div id="logo">
+                <a href="{{ url_for('index') }}"><span>vacay</span>home</a>
+              </div>
+            </div>
+            <div class="col-sm-6 visible-sm">
+              <div class="text-right">
+                <a href="{{ url_for('book') }}" class="book-now-btn">Book Now</a>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
+              <nav class="navbar navbar-default">
+                <div class="navbar-header page-scroll">
+                  <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                </div>
+                <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
+                  <ul class="list-unstyled nav1 cl-effect-10">
+                    <li><a data-hover="Home" href="{{ url_for('index') }}" class="active"><span>Home</span></a></li>
+                    <li><a data-hover="Book" href="{{ url_for('book') }}"><span>Book</span></a></li>
+                    <li><a data-hover="Admin" href="{{url_for('admin_login') }}"><span></span></a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
+              <div class="text-right">
+                <a href="{{ url_for('book') }}" class="book-now-btn">Book Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Room Gallery -->
+    <section class="section-padding">
+      <div class="container">
+        <h2 class="section-title">Available Rooms</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="room-card">
+              <img src="{{ url_for('static', filename='images/deluxe.jpg') }}" alt="Room 1">
+              <div class="room-info">
+                <h4>Deluxe Room</h4>
+                <p class="room-desc">
+                  An affordable choice for travelers. Includes a double bed, attached bathroom, and complimentary WiFi.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="room-card">
+              <img src="{{ url_for('static', filename='images/suite.jpg') }}" alt="Room 2">
+              <div class="room-info">
+                <h4>Suite</h4>
+                <p class="room-desc">
+                 A luxurious suite featuring a king-size bed, living area, minibar, and a stunning balcony view.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="room-card">
+              <img src="{{ url_for('static', filename='images/economy.jpg') }}" alt="Room 3">
+              <div class="room-info">
+                <h4>Budget</h4>
+                <p class="room-desc">
+                  Premium experience with deluxe furnishings, hot tub, workspace, and 24/7 concierge service.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Block -->
+    <section class="service-block section-padding">
+      <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <div class="row">
+          <div class="col-md-3 col-sm-6">
+            <div class="service-details">
+              <div class="service-image">
+                <img alt="Free Wifi" src="{{ url_for('static', filename='images/icons/wifi.png') }}">
+              </div>
+              <h4>Free Wifi</h4>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="service-details">
+              <div class="service-image">
+                <img alt="Room Service" src="{{ url_for('static', filename='images/icons/key.png') }}">
+              </div>
+              <h4>Room Service</h4>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="service-details">
+              <div class="service-image">
+                <img alt="Free Parking" src="{{ url_for('static', filename='images/icons/car.png') }}">
+              </div>
+              <h4>Free Parking</h4>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="service-details">
+              <div class="service-image">
+                <img alt="Customer Support" src="{{ url_for('static', filename='images/icons/user.png') }}">
+              </div>
+              <h4>Customer Support</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="footer-details">
+              <h4>Get in touch</h4>
+              <ul class="list-unstyled footer-contact-list">
+                <li><i class="fa fa-map-marker fa-lg"></i>Kodaikanal, TamilNadu</li>
+                <li><i class="fa fa-phone fa-lg"></i> <a href="tel:+1-202-555-0100">+91-9692550275</a></li>
+                <li><i class="fa fa-envelope-o fa-lg"></i> <a href="mailto:demo@info.com">Regal Homes</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="footer-details">
+              <h4>Explore</h4>
+              <ul class="list-unstyled footer-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('book') }}">Book</a></li>
+              </ul>
+            </div>
+          </div>
+        <div class="copyright">
+          &copy; 2025 All rights reserved. Designed by VacayHome.
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
