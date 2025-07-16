@@ -1,12 +1,4 @@
-/*
-Template Name: vacayhome
-File Name: responsive.css
-Author Name: ThemeVault
-Author URI: http://www.themevault.net/
-License URI: http://www.themevault.net/license/
-*/
 
-/* Landscape phones and smaller */
 @media (max-width: 1199px) {
     .remove-space{
         padding-left: 0px;
